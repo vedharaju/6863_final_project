@@ -21,8 +21,7 @@ public class RunMedPost {
 
 	public static void main(String[] args) throws ClassNotFoundException,
 			IOException {
-
-		String filename = "/Users/vedharaju/MIT 3.1/6.863/FinalProjectWorkspace/LingPipeDir/demos/models/pos-en-general-brown.HiddenMarkovModel";
+		String filename = "./pos-en-general-brown.HiddenMarkovModel";
 		System.out.println("Reading model from file=" + filename);
 		FileInputStream fileIn = new FileInputStream(filename);
 		ObjectInputStream objIn = new ObjectInputStream(fileIn);
