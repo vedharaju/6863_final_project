@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import com.aliasi.hmm.HiddenMarkovModel;
@@ -18,7 +19,7 @@ public class RunMedPost {
 	static TokenizerFactory TOKENIZER_FACTORY = new RegExTokenizerFactory(
 			"(-|'|\\d|\\p{L})+|\\S");
 
-	public static ArrayList<String> getWords(String line) throws ClassNotFoundException,
+	public static HashMap<String, String> getWords(String line) throws ClassNotFoundException,
 			IOException {
 		String filename = "./pos-en-general-brown.HiddenMarkovModel";
 		System.out.println("Reading model from file=" + filename);
@@ -45,16 +46,16 @@ public class RunMedPost {
 		return words_with_tags;
 	}
 
-	static ArrayList<String> filteredFirstBest(List<String> tokenList, HmmDecoder decoder) {
+	static HashMap<String, String> filteredFirstBest(List<String> tokenList, HmmDecoder decoder) {
 		String[] tags = { "ql", "qlp", "jj", "jj$", "jj+jj", "jjr", "jjr+cs",
 				"jjs", "jjt", "rb", "rb$", "rb+bez", "rb+cs", "rbr", "rbr+cs",
 				"rbt", "rn", "rp", "rp+in" };
 		List<String> acceptable_tags = Arrays.asList(tags);
-		ArrayList<String> filtered_words = new ArrayList<String>();
+		HashMap<String, String> filtered_words = new HashMap<String, String>();
 		Tagging<String> tagging = decoder.tag(tokenList);
 		for (int i = 0; i < tagging.size(); ++i)
 			if (acceptable_tags.contains(tagging.tag(i))) {
-				filtered_words.add(tagging.token(i));
+				filtered_words.put(tagging.token(i), tagging.tag(i));
 			}
 		return filtered_words;
 	}
