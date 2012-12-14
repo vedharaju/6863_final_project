@@ -2,6 +2,8 @@ package edu.mit.nlp;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 
 import com.aliasi.tag.Tagging;
 
@@ -40,7 +42,43 @@ public class Main {
 			return false;
 		}
 	}
-	
+
+	/*
+		0: Neutral Positive Adjective
+		1: Strong positive Adjective
+		2: Neutral Negative Adjective
+		3: Strong Negative Adjective
+		4: Neutral Positive Adverb
+		5: Strong positive Adverb
+		6: Neutral Negative Adverb
+		7: Strong Negative Adverb
+
+	 */
+	public static Integer[] getSummary(ArrayList<WordSentiment> alWordSentiment) {
+		Integer [] aSummary = new Integer[8];
+		for (int i=0; i<aSummary.length; i++) {
+			aSummary[i] = new Integer(0);
+		}
+		Iterator<WordSentiment> it = alWordSentiment.iterator();
+		while (it.hasNext()) {
+			WordSentiment wordSentiment = it.next();
+			if (wordSentiment.isSentiment()) {
+				//check if its an adjective or adverb
+				int sentiment = wordSentiment.getSentimentIndex();
+
+				
+				if (wordSentiment.isAdjective()) {
+					aSummary[sentiment] = aSummary[sentiment]  + 1;
+				} else {
+					aSummary[sentiment+4] = aSummary[sentiment]  + 1;
+				}
+			}
+		}
+		
+		
+		
+		return aSummary;
+	}
 	public static void main(String[] args) throws ClassNotFoundException,
 	IOException {
 		
@@ -100,7 +138,10 @@ public class Main {
 		
 		//TODO: Analyze the WordSentiment Arraylist
 		System.out.println(alSentiment);
-		
+		Integer[] aSummary = getSummary(alSentiment);
+		for (int i=0; i<aSummary.length; i++) {
+			System.out.println("Index = " + i + ", value="+aSummary[i]);
+		}
 
 		/*	
 		if (acceptable_tags.contains(tagging.tag(i))) {

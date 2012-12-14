@@ -47,6 +47,31 @@ public class WordSentiment {
 		}
 	}
 	
+	public boolean isSentiment() {
+		return bSentiment;
+	}
+	
+	public boolean isAdjective() {
+		return bAdjective;
+	}
+	
+	public int getSentimentIndex() {
+		int sentiment = this.strength * this.multiplier;
+		if (sentiment > 0) {
+			//its positive
+			if (sentiment >= 2) 
+				return 1;
+			else 
+				return 0;
+		} else {
+			//its negative
+			if (sentiment <= -2) 
+				return 3;
+			else 
+				return 2;
+		}
+	}
+	
 	public String toString(){
 		String retVal = "Token=" + this.token + ", Tag=" + this.tag + ", isSentiment=" + this.bSentiment + 
 				", isAdjective=" + this.bAdjective + ", strength=" + this.strength + ", multiplier=" + this.multiplier;
