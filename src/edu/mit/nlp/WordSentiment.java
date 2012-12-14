@@ -17,6 +17,7 @@ public class WordSentiment {
 	private String token;
 	private String tag;
 	private boolean bSentiment = false;
+	private boolean bAdjective = false;
 	private int strength = 0;
 	private int multiplier = 1;
 	
@@ -29,10 +30,11 @@ public class WordSentiment {
 		bSentiment = false;
 	}
 
-	public WordSentiment(String token, String tag, int strength, int multiplier) {
+	public WordSentiment(String token, String tag, boolean bAdjective, int strength, int multiplier) {
 		this.token = token;
 		this.tag = tag;
 		this.bSentiment = true;
+		this.bAdjective = bAdjective;
 		this.strength = strength;
 		this.multiplier = multiplier;
 	}
@@ -45,6 +47,11 @@ public class WordSentiment {
 		}
 	}
 	
-	
+	public String toString(){
+		String retVal = "Token=" + this.token + ", Tag=" + this.tag + ", isSentiment=" + this.bSentiment + 
+				", isAdjective=" + this.bAdjective + ", strength=" + this.strength + ", multiplier=" + this.multiplier;
+		
+		return retVal;
+	}
 	
 }

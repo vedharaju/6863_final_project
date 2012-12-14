@@ -17,7 +17,7 @@ public class Categorizer {
 		try {
 			BufferedReader bufRead = new BufferedReader(pos);
 			while((line = bufRead.readLine()) != null) {
-				line = line.trim(); 
+				line = line.trim().toLowerCase(); 
 				if (line != null){
 					positive.add(line);
 				}
@@ -25,7 +25,7 @@ public class Categorizer {
 			
 			bufRead = new BufferedReader(neg);
 			while((line = bufRead.readLine()) != null) {
-				line = line.trim(); 
+				line = line.trim().toLowerCase(); 
 				if (line != null){
 					negative.add(line);
 				}
@@ -37,7 +37,7 @@ public class Categorizer {
 	}
 	
 	public boolean isPositive(String word) {
-		if (positive.contains(word)) {
+		if (positive.contains(word.toLowerCase())) {
 			return true;
 		} else {
 			return false;
@@ -45,7 +45,7 @@ public class Categorizer {
 	}
 
 	public boolean isNegative(String word) {
-		if (negative.contains(word)) {
+		if (negative.contains(word.toLowerCase())) {
 			return true;
 		} else {
 			return false;

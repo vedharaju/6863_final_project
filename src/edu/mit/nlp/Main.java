@@ -51,24 +51,33 @@ public class Main {
 		//Create WordSentiment objects
 		ArrayList<WordSentiment> alSentiment = new ArrayList();
 		//TODO - separate positive, strong positive, negative and strong negative words
-		FileReader positive = new FileReader("./positive");
-		FileReader negative = new FileReader("./negative_words");
-		Categorizer categorizer = new Categorizer(positive, negative);
+		FileReader strong_positive = new FileReader("./strong_positive.csv");
+		FileReader strong_negative = new FileReader("./strong_negative.csv");
+		FileReader neutral_positive = new FileReader("./neutral_positive.csv");
+		FileReader neutral_negative = new FileReader("./neutral_negative.csv");
+		Categorizer strong_categorizer = new Categorizer(strong_positive, strong_negative);
+		Categorizer neutral_categorizer = new Categorizer(neutral_positive, neutral_negative);
 
-		
 		for (int i = 0; i < tagged_words.size(); ++i) {
 			//is it an adjective or an adverb
 			String word = tagged_words.token(i);
 			String pos = tagged_words.tag(i);
 			if (isAdjective(pos) || isAdverb(pos)) {
-
-				int strength=0, multiplier = 0;
+				
+				int strength=0, multiplier =1;
 				//Check strength, direction
-				if (categorizer.isPositive(word)) {
+				if (strong_categorizer.isPositive(word)) {
+					strength = 2;
+				} else if  (strong_categorizer.isNegative(word)) {
+					strength = -2;
+				}
+				
+				if (neutral_categorizer.isPositive(word)) {
 					strength = 1;
-				} else if  (categorizer.isNegative(word)) {
+				} else if  (neutral_categorizer.isNegative(word)) {
 					strength = -1;
 				}
+				
 
 				//Check vicinity for negation or quantifiers
 				if ( i > 0 && strength != 0 && isQuantifier(tagged_words.token(i-1), tagged_words.tag(i-1))) {
@@ -77,18 +86,20 @@ public class Main {
 					multiplier = -1;
 				}
 
-				WordSentiment wordSentiment = new WordSentiment(word, pos, strength, multiplier);				
+				WordSentiment wordSentiment = new WordSentiment(word, pos, Main.isAdjective(pos), strength, multiplier);
+				System.out.println(wordSentiment.toString());
 				alSentiment.add(wordSentiment);
 				
 			} else {
 				//Add to the WordSentiment Arraylist just to captrue the word and its POS
-				WordSentiment wordSentiment = new WordSentiment(word, pos);				
+				WordSentiment wordSentiment = new WordSentiment(word, pos);	
+				System.out.println(wordSentiment.toString());
 				alSentiment.add(wordSentiment);
 			}
 		}
 		
 		//TODO: Analyze the WordSentiment Arraylist
-		
+		System.out.println(alSentiment);
 		
 
 		/*	
