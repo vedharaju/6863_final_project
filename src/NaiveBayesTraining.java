@@ -3,9 +3,7 @@ import java.util.Arrays;
 
 
 public class NaiveBayesTraining {
-	
-	int alpha1 = 0, alpha2 = 0, alpha3 = 0, alpha4 = 0;
-	
+		
 	public static void main(String[] args) {
 		
 		//prior prob
