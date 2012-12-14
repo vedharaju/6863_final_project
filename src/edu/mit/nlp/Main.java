@@ -31,7 +31,8 @@ public class Main {
 	public static boolean isQuantifier(String word, String pos) {
 
 		if (pos.toLowerCase().startsWith("abn") || pos.toLowerCase().startsWith("abx") 
-				|| pos.toLowerCase().startsWith("ap") || pos.toLowerCase().startsWith("ap$")) {
+				|| pos.toLowerCase().startsWith("ap") || pos.toLowerCase().startsWith("ap$") 
+				|| pos.toLowerCase().startsWith("ql")) {
 			return true;
 		} else {
 			return false;
