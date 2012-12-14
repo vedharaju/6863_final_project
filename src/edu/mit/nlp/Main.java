@@ -28,7 +28,9 @@ public class Main {
 	}
 	
 	public static boolean isQuantifier(String word, String pos) {
-		if (pos.toLowerCase().startsWith("rb")) {
+
+		if (pos.toLowerCase().startsWith("abn") || pos.toLowerCase().startsWith("abx") 
+				|| pos.toLowerCase().startsWith("ap") || pos.toLowerCase().startsWith("ap$")) {
 			return true;
 		} else {
 			return false;
@@ -36,7 +38,7 @@ public class Main {
 	}
 	
 	public static boolean isNegation(String word, String pos) {
-		if (pos.toLowerCase().startsWith("rb")) {
+		if (pos.toLowerCase().startsWith("*")) {
 			return true;
 		} else {
 			return false;
@@ -83,7 +85,7 @@ public class Main {
 	IOException {
 		
 		Tagging<String> tagged_words = 
-				RunMedPost.getWords("Movie has a very good ending");
+				RunMedPost.getWords("Movie many good ending");
 		System.out.println(tagged_words);
 		
 		//Create WordSentiment objects
@@ -101,6 +103,8 @@ public class Main {
 			String word = tagged_words.token(i);
 			String pos = tagged_words.tag(i);
 			if (isAdjective(pos) || isAdverb(pos)) {
+				//TODO need to get base word before checking the dictionary of pos/neg words
+				
 				
 				int strength=0, multiplier =1;
 				//Check strength, direction
