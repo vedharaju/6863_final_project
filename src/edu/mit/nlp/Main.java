@@ -2,12 +2,13 @@ package edu.mit.nlp;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 
 import com.aliasi.tag.Tagging;
 
-import edu.mit.nlp.WordSentiment;
+import edu.mit.jwi.item.Word;
 
 public class Main {
 
@@ -56,7 +57,7 @@ public class Main {
 		7: Strong Negative Adverb
 
 	 */
-	public static Integer[] getSummary(ArrayList<WordSentiment> alWordSentiment) {
+	public static ArrayList<Integer> getSummary(ArrayList<WordSentiment> alWordSentiment) {
 		Integer [] aSummary = new Integer[8];
 		for (int i=0; i<aSummary.length; i++) {
 			aSummary[i] = new Integer(0);
@@ -76,20 +77,16 @@ public class Main {
 				}
 			}
 		}
-		
-		
-		
-		return aSummary;
+		return (ArrayList<Integer>) Arrays.asList(aSummary);
 	}
-	public static void main(String[] args) throws ClassNotFoundException,
-	IOException {
-		
-		Tagging<String> tagged_words = 
-				RunMedPost.getWords("Movie many good ending");
+
+	
+	public static ArrayList<WordSentiment> process(String review) throws ClassNotFoundException, IOException {
+		Tagging<String> tagged_words =  RunMedPost.getWords(review);
 		System.out.println(tagged_words);
 		
 		//Create WordSentiment objects
-		ArrayList<WordSentiment> alSentiment = new ArrayList();
+		ArrayList<WordSentiment> alSentiment = new ArrayList<WordSentiment>();
 		//TODO - separate positive, strong positive, negative and strong negative words
 		FileReader strong_positive = new FileReader("./strong_positive.csv");
 		FileReader strong_negative = new FileReader("./strong_negative.csv");
@@ -129,23 +126,33 @@ public class Main {
 				}
 
 				WordSentiment wordSentiment = new WordSentiment(word, pos, Main.isAdjective(pos), strength, multiplier);
-				System.out.println(wordSentiment.toString());
+//				System.out.println(wordSentiment.toString());
 				alSentiment.add(wordSentiment);
 				
 			} else {
 				//Add to the WordSentiment Arraylist just to captrue the word and its POS
 				WordSentiment wordSentiment = new WordSentiment(word, pos);	
-				System.out.println(wordSentiment.toString());
+//				System.out.println(wordSentiment.toString());
 				alSentiment.add(wordSentiment);
 			}
 		}
 		
+		return alSentiment;
+		
+	}
+	
+	public static void main(String[] args) throws ClassNotFoundException,
+	IOException {
+		
+		ArrayList<WordSentiment> alSentiment = process("Some sentence");
+		System.out.println("results: " + alSentiment);
+		
 		//TODO: Analyze the WordSentiment Arraylist
-		System.out.println(alSentiment);
-		Integer[] aSummary = getSummary(alSentiment);
-		for (int i=0; i<aSummary.length; i++) {
-			System.out.println("Index = " + i + ", value="+aSummary[i]);
-		}
+//		System.out.println(alSentiment);
+		ArrayList<Integer> aSummary = getSummary(alSentiment);
+//		for (int i=0; i<aSummary.length; i++) {
+//			System.out.println("Index = " + i + ", value="+aSummary[i]);
+//		}
 
 		/*	
 		if (acceptable_tags.contains(tagging.tag(i))) {

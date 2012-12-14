@@ -23,7 +23,7 @@ public class RunMedPost {
 	public static Tagging<String> getWords(String line) throws ClassNotFoundException,
 			IOException {
 		String filename = "./pos-en-general-brown.HiddenMarkovModel";
-		System.out.println("Reading model from file=" + filename);
+//		System.out.println("Reading model from file=" + filename);
 		FileInputStream fileIn = new FileInputStream(filename);
 		ObjectInputStream objIn = new ObjectInputStream(fileIn);
 		HiddenMarkovModel hmm = (HiddenMarkovModel) objIn.readObject();

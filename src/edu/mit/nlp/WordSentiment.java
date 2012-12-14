@@ -75,7 +75,6 @@ public class WordSentiment {
 	public String toString(){
 		String retVal = "Token=" + this.token + ", Tag=" + this.tag + ", isSentiment=" + this.bSentiment + 
 				", isAdjective=" + this.bAdjective + ", strength=" + this.strength + ", multiplier=" + this.multiplier;
-		
 		return retVal;
 	}
 	
