@@ -118,27 +118,34 @@ public class Main {
 					strength = -2;
 				}
 
-				if (neutral_categorizer.isPositive(word)) {
-					strength = 1;
-					// System.out.println("netural positive: " + word);
-				} else if (neutral_categorizer.isNegative(word)) {
-					strength = -1;
-					// System.out.println("netural negative: " + word);
+				if (strength==0) {
+					if (neutral_categorizer.isPositive(word)) {
+						strength = 1;
+						// System.out.println("netural positive: " + word);
+					} else if (neutral_categorizer.isNegative(word)) {
+						strength = -2;
+						// System.out.println("netural negative: " + word);
+					}
 				}
+
 
 				// Check vicinity for negation or quantifiers
 				if (i > 0
 						&& strength != 0
 						&& isQuantifier(tagged_words.token(i - 1),
 								tagged_words.tag(i - 1))) {
-					multiplier = 2;
+					multiplier = 1; // changed it to  1, since we are getting words such as 'as' counted as quantifier; TODO - check the list of POS for this;
 				} else if (i > 0
 						&& strength != 0
 						&& isNegation(tagged_words.token(i - 1),
 								tagged_words.tag(i - 1))) {
+					//System.out.println("Negation: " + word);
 					multiplier = -1;
 				}
 
+
+				//TODO : if strength is still zero, check word net for a different word
+				
 				WordSentiment wordSentiment = new WordSentiment(word, pos,
 						Main.isAdjective(pos), strength, multiplier);
 				// System.out.println(wordSentiment.toString());
