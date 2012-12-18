@@ -6,12 +6,8 @@ import java.util.Arrays;
 
 public class NaiveBayesTraining {
 
-	public static void main(String[] args) throws ClassNotFoundException,
-			IOException {
-
-		File f = new File("./neg/cv908_17779.txt");
-		Integer[] word_counts = TrainingCounts.counts(f);
-		System.out.println("counts " + Arrays.toString(word_counts));
+	public static int getSentiment(Integer[] word_counts) {
+//		System.out.println("counts " + Arrays.toString(word_counts));
 
 		// prior prob
 		double positive = 0.5;
@@ -55,9 +51,9 @@ public class NaiveBayesTraining {
 		double test6_pos = 1;
 		double test6_neg = 1;
 
-//		// test 7: total negative > total positive
-//		double test6_pos = 1;
-//		double test6_neg = 1;
+		// // test 7: total negative > total positive
+		// double test6_pos = 1;
+		// double test6_neg = 1;
 
 		boolean test1;
 		boolean test2;
@@ -67,14 +63,14 @@ public class NaiveBayesTraining {
 		boolean test6;
 
 		// test1
-		if (strong_pos_adj >= 2 * strong_neg_adj) {
+		if (strong_pos_adj > 2 * strong_neg_adj) {
 			test1 = true;
 		} else {
 			test1 = false;
 		}
 
 		// test2
-		if (strong_pos_adv >= 2 * strong_neg_adv) {
+		if (strong_pos_adv > 2 * strong_neg_adv) {
 			test2 = true;
 		} else {
 			test2 = false;
@@ -89,14 +85,14 @@ public class NaiveBayesTraining {
 		}
 
 		// test4
-		if (strong_neg_adj >= 2 * strong_pos_adj) {
+		if (strong_neg_adj > 2 * strong_pos_adj) {
 			test4 = true;
 		} else {
 			test4 = false;
 		}
 
 		// test5
-		if (strong_neg_adv >= 2 * strong_pos_adv) {
+		if (strong_neg_adv > 2 * strong_pos_adv) {
 			test5 = true;
 		} else {
 			test5 = false;
@@ -138,6 +134,7 @@ public class NaiveBayesTraining {
 			}
 		}
 
+
 		System.out.println("Calculating negative");
 		Double prob_negative = negative;
 		for (int i = 0; i < test_results.length; i++) {
@@ -161,6 +158,27 @@ public class NaiveBayesTraining {
 			answer = 0;
 		}
 
-		System.out.println("The answer is: " + answer);
+		// System.out.println("The answer is: " + answer);
+		return answer;
+	}
+
+	public static void main(String[] args) throws ClassNotFoundException,
+			IOException {
+
+//		File dir = new File("./pos/cv626_7410.txt");
+		int neg = 0;
+		int count = 1;
+		File child = new File("./pos/cv626_7410.txt");
+//		for (File child: dir.listFiles()) {
+			System.out.println(count);
+			Integer[] word_counts = TrainingCounts.counts(child);
+			System.out.println("word counts: "  + Arrays.toString(word_counts));
+			if (getSentiment(word_counts) > 0) {
+				neg += 1;
+			}
+//			System.out.println(getSentiment(word_counts));
+			count++;
+//		}
+		System.out.println("counts: " +  neg);
 	}
 }

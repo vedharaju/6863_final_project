@@ -45,7 +45,7 @@ public class TrainingCounts {
 	public static Integer[] tests(Integer[] counts){
 		Integer[] answer = {0,0,0,0,0,0};
 		
-		if (counts[1] > 2*counts[3]) {
+		if (counts[1] > counts[3]) {
 			answer[0] = 1;
 		}
 		
