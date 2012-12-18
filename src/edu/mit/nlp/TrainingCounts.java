@@ -42,47 +42,63 @@ public class TrainingCounts {
 		}
 	}
 	
-	public static void main(String[] args) throws ClassNotFoundException,
-	IOException {
-		ArrayList<Integer> strong_adj = new ArrayList<Integer>(5);
-		ArrayList<Integer> adj = new ArrayList<Integer>(5);
-		ArrayList<Integer> strong_adv = new ArrayList<Integer>(5);
-		ArrayList<Integer> adv = new ArrayList<Integer>(5);
-		ArrayList<Integer> strong_neg_adj = new ArrayList<Integer>(5);
-		ArrayList<Integer> neg_adj = new ArrayList<Integer>(5);
-		ArrayList<Integer> strong_neg_adv = new ArrayList<Integer>(5);
-		ArrayList<Integer> neg_adv = new ArrayList<Integer>(5);
+	public static Integer[] tests(Integer[] counts){
+		Integer[] answer = {0,0,0,0,0,0};
 		
-		ArrayList<ArrayList<Integer>> finalCounts = new ArrayList<ArrayList<Integer>>();
-		finalCounts.add(adj);
-		finalCounts.add(strong_adj);
-		finalCounts.add(neg_adj);
-		finalCounts.add(strong_neg_adj);
-		finalCounts.add(adv);
-		finalCounts.add(strong_adv);
-		finalCounts.add(neg_adv);
-		finalCounts.add(strong_neg_adv);
-		ArrayList<Integer> returnCounts = new ArrayList<Integer>();
-	
-		int count = 0;
-		File dir = new File("./pos");
-		for (File child: dir.listFiles()) {
-			if (count > 3) {
-				break;
-			}
-			returnCounts = counts(child);
-			System.out.println("summary " + returnCounts);
-			for (int i=0; i<returnCounts.size(); i++) {
-				int x = returnCounts.get(i);
-				ArrayList<Integer> temp = finalCounts.get(i);
-				int index = Math.max(x, 5) - 1;
-				temp.set(index, temp.get(index) + 1);
-			}
-			count++;
+		if (counts[1] > 2*counts[3]) {
+			answer[0] = 1;
 		}
+		
+		if (counts[5] > 2*counts[7]) {
+			answer[1] = 1;
+		}
+		
+		if (counts[0] + counts[1] + counts[4] + counts[5] > counts[2] + counts[3] + counts[6] + counts[7]) {
+			answer[2] = 1;
+		}
+		
+		if (counts[3] > 2*counts[1]) {
+			answer[3] = 1;
+		}
+		
+		if (counts[7] > 2*counts[5]) {
+			answer[3] = 1;
+		}
+		
+		if (counts[2] + counts[3] + counts[6] + counts[7] > counts[0] + counts[1] + counts[4] + counts[5]) {
+			answer[5] = 1;
+		}
+		return answer;
 	}
 	
-	public static ArrayList<Integer> counts(File f) throws ClassNotFoundException, IOException {
+	public static void main(String[] args) throws ClassNotFoundException,
+	IOException {
+		System.out.println("Running...");
+		Integer[] test_counts = {0,0,0,0,0,0};
+		Integer[] returnCounts;
+	
+		int count = 0;
+		File dir = new File("./neg");
+		for (File child: dir.listFiles()) {
+			if (count > 99) {
+				break;
+			}
+//			if (count == 5){
+			returnCounts = counts(child);
+			Integer[] update = tests(returnCounts);
+			System.out.println("counts " + Arrays.toString(returnCounts));
+//			System.out.println("update " + Arrays.toString(update));
+			
+			for (int i=0; i<update.length; i++){
+				test_counts[i] += update[i];
+			}
+//			} 
+			count++;
+		}
+		System.out.println("counts: " + Arrays.toString(test_counts));
+	}
+	
+	public static Integer[] counts(File f) throws ClassNotFoundException, IOException {
 		return Main.getSummary(Main.process(readFile(f)));
 	}
 	

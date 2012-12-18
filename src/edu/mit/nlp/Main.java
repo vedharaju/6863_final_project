@@ -58,7 +58,7 @@ public class Main {
 		7: Strong Negative Adverb
 
 	 */
-	public static ArrayList<Integer> getSummary(ArrayList<WordSentiment> alWordSentiment) {
+	public static Integer[] getSummary(ArrayList<WordSentiment> alWordSentiment) {
 		Integer [] aSummary = new Integer[8];
 		for (int i=0; i<aSummary.length; i++) {
 			aSummary[i] = new Integer(0);
@@ -78,13 +78,13 @@ public class Main {
 				}
 			}
 		}
-		return (ArrayList<Integer>) Arrays.asList(aSummary);
+		return aSummary;
 	}
 
 	
 	public static ArrayList<WordSentiment> process(String review) throws ClassNotFoundException, IOException {
 		Tagging<String> tagged_words =  RunMedPost.getWords(review);
-		System.out.println(tagged_words);
+//		System.out.println(tagged_words);
 		
 		//Create WordSentiment objects
 		ArrayList<WordSentiment> alSentiment = new ArrayList<WordSentiment>();
@@ -114,8 +114,10 @@ public class Main {
 				
 				if (neutral_categorizer.isPositive(word)) {
 					strength = 1;
+//					System.out.println("netural positive: "  + word);
 				} else if  (neutral_categorizer.isNegative(word)) {
 					strength = -1;
+//					System.out.println("netural negative: "  + word);
 				}
 				
 
@@ -150,10 +152,10 @@ public class Main {
 		
 		//TODO: Analyze the WordSentiment Arraylist
 //		System.out.println(alSentiment);
-		ArrayList<Integer> aSummary = getSummary(alSentiment);
-//		for (int i=0; i<aSummary.length; i++) {
-//			System.out.println("Index = " + i + ", value="+aSummary[i]);
-//		}
+		Integer[] aSummary = getSummary(alSentiment);
+		for (int i=0; i<aSummary.length; i++) {
+			System.out.println("Index = " + i + ", value="+aSummary[i]);
+		}
 
 		/*	
 		if (acceptable_tags.contains(tagging.tag(i))) {
