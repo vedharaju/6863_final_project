@@ -57,6 +57,10 @@ public class WordSentiment {
 	
 	public int getSentimentIndex() {
 		int sentiment = this.strength * this.multiplier;
+//		System.out.println("sentiment: " + sentiment);
+		if (sentiment == 0) {
+			return -12;
+		}
 		if (sentiment > 0) {
 			//its positive
 			if (sentiment >= 2) 

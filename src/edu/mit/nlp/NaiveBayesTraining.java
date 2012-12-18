@@ -33,27 +33,24 @@ public class NaiveBayesTraining {
 		double test2_pos = 0.22;
 		double test2_neg = 0.18;
 
-		// test 3: total positive > total negative
-		// double test3_pos = 0;
-		// double test3_neg = 0;
+//		 test 3: total positive > total negative
+		 double test3_pos = 0.88;
+		 double test3_neg = 0.65;
 
 		// test 4: the number of strong negative adjectives is >2.number of
 		// strong positive adjectives
-		double test4_pos = 0.09;
-		double test4_neg = 0.19;
+		double test4_pos = 0.01;
+		double test4_neg = 0.13;
 
 		// test 5: the number of strong negative adverbs is >2.number of strong
 		// positive adverbs
-		// double test5_pos = 0;
-		// double test5_neg = 0;
+		 double test5_pos = 0.08;
+		 double test5_neg = 0.06;
 
 		// test 6: total negative > total positive
-		double test6_pos = 1;
-		double test6_neg = 1;
+		double test6_pos = 0.11;
+		double test6_neg = 0.33;
 
-		// // test 7: total negative > total positive
-		// double test6_pos = 1;
-		// double test6_neg = 1;
 
 		boolean test1;
 		boolean test2;
@@ -113,42 +110,40 @@ public class NaiveBayesTraining {
 		// Double[] prob_given_negative = { test1_neg, test2_neg, test3_neg,
 		// test4_neg, test5_neg, test6_neg };
 
-		Boolean[] test_results = { test1, test2, test4, test6 };
-		System.out.println("test results: " + Arrays.toString(test_results));
-		Double[] prob_given_positive = { test1_pos, test2_pos, test4_pos,
-				test6_pos };
-		Double[] prob_given_negative = { test1_neg, test2_neg, test4_neg,
-				test6_neg };
+		Boolean[] test_results = { test1, test3, test4, test6 };
+//		System.out.println("test results: " + Arrays.toString(test_results));
+		Double[] prob_given_positive = { test1_pos, test3_pos, test4_pos, test6_pos };
+		Double[] prob_given_negative = { test1_neg, test3_neg, test4_neg, test6_neg };
 
 		// calculating probability of positiveness
-		System.out.println("Calculating positive");
+//		System.out.println("Calculating positive");
 		Double prob_positive = positive;
 
 		for (int i = 0; i < test_results.length; i++) {
 			if (test_results[i]) {
 				prob_positive = prob_positive * prob_given_positive[i];
-				System.out.println(prob_given_positive[i]);
+//				System.out.println(prob_given_positive[i]);
 			} else {
 				prob_positive = prob_positive * (1 - prob_given_positive[i]);
-				System.out.println(1 - prob_given_positive[i]);
+//				System.out.println(1 - prob_given_positive[i]);
 			}
 		}
 
 
-		System.out.println("Calculating negative");
+//		System.out.println("Calculating negative");
 		Double prob_negative = negative;
 		for (int i = 0; i < test_results.length; i++) {
 			if (test_results[i]) {
 				prob_negative = prob_negative * prob_given_negative[i];
-				System.out.println(prob_given_negative[i]);
+//				System.out.println(prob_given_negative[i]);
 			} else {
 				prob_negative = prob_negative * (1 - prob_given_negative[i]);
-				System.out.println(1 - prob_given_negative[i]);
+//				System.out.println(1 - prob_given_negative[i]);
 			}
 		}
 
-		System.out.println("positive: " + prob_positive);
-		System.out.println("negative: " + prob_negative);
+//		System.out.println("positive: " + prob_positive);
+//		System.out.println("negative: " + prob_negative);
 		int answer;
 		if (prob_positive > prob_negative) {
 			answer = +1;
@@ -165,20 +160,19 @@ public class NaiveBayesTraining {
 	public static void main(String[] args) throws ClassNotFoundException,
 			IOException {
 
-//		File dir = new File("./pos/cv626_7410.txt");
-		int neg = 0;
+		File dir = new File("./neg");
+		int correct = 0;
 		int count = 1;
-		File child = new File("./pos/cv626_7410.txt");
-//		for (File child: dir.listFiles()) {
+//		File child = new File("./pos/cv626_7410.txt");
+		for (File child: dir.listFiles()) {
 			System.out.println(count);
 			Integer[] word_counts = TrainingCounts.counts(child);
-			System.out.println("word counts: "  + Arrays.toString(word_counts));
+//			System.out.println("word counts: "  + Arrays.toString(word_counts));
 			if (getSentiment(word_counts) > 0) {
-				neg += 1;
+				correct += 1;
 			}
-//			System.out.println(getSentiment(word_counts));
 			count++;
-//		}
-		System.out.println("counts: " +  neg);
+		}
+		System.out.println("counts: " +  correct);
 	}
 }

@@ -45,7 +45,7 @@ public class TrainingCounts {
 	public static Integer[] tests(Integer[] counts){
 		Integer[] answer = {0,0,0,0,0,0};
 		
-		if (counts[1] > counts[3]) {
+		if (counts[1] > 2*counts[3]) {
 			answer[0] = 1;
 		}
 		
@@ -62,7 +62,7 @@ public class TrainingCounts {
 		}
 		
 		if (counts[7] > 2*counts[5]) {
-			answer[3] = 1;
+			answer[4] = 1;
 		}
 		
 		if (counts[2] + counts[3] + counts[6] + counts[7] > counts[0] + counts[1] + counts[4] + counts[5]) {
@@ -78,7 +78,7 @@ public class TrainingCounts {
 		Integer[] returnCounts;
 	
 		int count = 0;
-		File dir = new File("./neg");
+		File dir = new File("./pos");
 		for (File child: dir.listFiles()) {
 			if (count > 99) {
 				break;
@@ -86,7 +86,7 @@ public class TrainingCounts {
 //			if (count == 5){
 			returnCounts = counts(child);
 			Integer[] update = tests(returnCounts);
-			System.out.println("counts " + Arrays.toString(returnCounts));
+//			System.out.println("counts " + Arrays.toString(returnCounts));
 //			System.out.println("update " + Arrays.toString(update));
 			
 			for (int i=0; i<update.length; i++){
